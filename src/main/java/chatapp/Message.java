@@ -14,12 +14,36 @@ public class Message {
 	
 	private String text;
 	
+	private String fromUser;
+	
+	private String toUser;
+	
 	public Message () {
-		
+
 	}
 	
-	public Message (String text) {
+	public Message (String text, String fromUser, String toUser) {
+		
 		this.text = text;
+		this.fromUser = fromUser;
+		this.toUser = toUser;
+
+	}
+	
+	public String getFromUser() {
+		return fromUser;
+	}
+
+	public void setFromUser(String fromUser) {
+		this.fromUser = fromUser;
+	}
+
+	public String getToUser() {
+		return toUser;
+	}
+
+	public void setToUser(String toUser) {
+		this.toUser = toUser;
 	}
 
 	public int getId() {
