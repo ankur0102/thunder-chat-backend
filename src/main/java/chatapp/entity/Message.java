@@ -1,4 +1,4 @@
-package chatapp;
+package chatapp.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

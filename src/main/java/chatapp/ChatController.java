@@ -10,16 +10,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import chatapp.entity.Chat;
+import chatapp.entity.Message;
+import chatapp.entity.User;
+
+import chatapp.service.ChatAppService;
+
 @RestController
 public class ChatController {
-
+	
 	@Autowired
-	ChatRepository chatRepository;
-		
+	ChatAppService service;
+
 	@CrossOrigin
 	@PostMapping ("/insertMessage")
 	public void insertMessage (@RequestBody Message message) {
-		chatRepository.insertMessage(message);
+		System.out.println("Inserting Message");
+		service.insertMessage(message);
 	}
 	
 	@CrossOrigin
@@ -28,7 +35,7 @@ public class ChatController {
 		
 		Map<String, Boolean> map = new HashMap<>();
 		
-		boolean result = chatRepository.authenticateUser(userLogin.getUserName(), userLogin.getPassword());
+		boolean result = service.authenticateUser(userLogin);
 		map.put("result", result);
 		
 		return map;
@@ -37,7 +44,8 @@ public class ChatController {
 	@CrossOrigin
 	@PostMapping ("/insertUser")
 	public void insertUser (@RequestBody User user) {
-		chatRepository.insertUser(user);
+		System.out.println("Inserting user");
+		service.signUpUser(user);
 	}
 	
 	@CrossOrigin
@@ -46,19 +54,19 @@ public class ChatController {
 		
 		Chat chat2 = new Chat(chat.getFriendUser() , chat.getBaseUser());
 		
-		chatRepository.insertChat(chat);
-		chatRepository.insertChat(chat2);
+		service.insertChat(chat);
+		service.insertChat(chat2);
 	}
 	
 	@CrossOrigin
 	@PostMapping ("/retrieveMessage")
 	public List<Message> retrieveMessage (@RequestBody Conversation conversation) {
-		return chatRepository.retrieveMessage(conversation.getFromUser(), conversation.getToUser());
+		return service.retrieveMessage(conversation);
 	}
 	
 	@CrossOrigin
 	@PostMapping ("/retrieveUsers")
-	public List<RetrieveUser> retrieveUsers (@RequestBody RetrieveUser retrieveUser) {
-		return chatRepository.retrieveUsers(retrieveUser.getUserName());
+	public List<Chat> retrieveUsers (@RequestBody RetrieveUser retrieveUser) {
+		return service.retrieveUsers(retrieveUser);
 	}
 }
